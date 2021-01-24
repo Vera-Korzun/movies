@@ -2,7 +2,7 @@ import { lazy } from "react";
 
 const movieDetailsRoutes = [
   {
-    path: "/movies/cast",
+    path: "/cast",
     name: "Cast",
     exact: true,
     component: lazy(() =>
@@ -12,7 +12,7 @@ const movieDetailsRoutes = [
     ),
   },
   {
-    path: "/movies/reviews",
+    path: "/reviews",
     name: "Reviews",
     exact: true,
     component: lazy(() =>

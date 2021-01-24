@@ -14,7 +14,7 @@ const mainRoutes = [
   {
     path: "/movies",
     name: "Movies",
-    exact: false,
+    exact: true,
     component: lazy(() =>
       import(
         "../components/pages/moviespage/MoviesPage" /* webpackChunkName: "MoviesPage"*/

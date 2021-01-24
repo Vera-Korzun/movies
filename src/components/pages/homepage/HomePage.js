@@ -28,7 +28,7 @@ class HomePage extends Component {
           <ul>
             {trendMovies.map((movie, index) => (
               <li key={`${movie.id}${index}`}>
-                <NavLink to={`/movies/:${movie.id}`}>{movie.title}</NavLink>
+                <NavLink to={`/movies/${movie.id}`}>{movie.title}</NavLink>
               </li>
             ))}
           </ul>
