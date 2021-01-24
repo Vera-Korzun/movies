@@ -32,6 +32,7 @@ class MovieDetailsPage extends Component {
       poster_path,
       title,
       release_date,
+      vote_average,
       overview,
       genres,
     } = this.state.detailsMovie;
@@ -47,10 +48,11 @@ class MovieDetailsPage extends Component {
 
     return (
       <MovieDetailsStyled>
-        <button type="button" onClick={this.goBack}>
-          Go Back
-        </button>
         <div className="details">
+          <button className="details-btn" type="button" onClick={this.goBack}>
+            Go Back
+          </button>
+
           <div className="details__info">
             <img
               src={`https://image.tmdb.org/t/p/w500${poster_path}`}
@@ -58,29 +60,39 @@ class MovieDetailsPage extends Component {
               width="250px"
             />
             <div className="details__info-description">
-              <h2>{title}</h2>
-              <span>{`(${releaseYear})`}</span>
+              <h2 className="details__info-title">
+                {title} {`(${releaseYear})`}
+              </h2>
+              <span>User score: {vote_average}</span>
               <h3>Overview</h3>
               <span>{overview}</span>
               <h3>Genres</h3>
-              <ul>
+              <ul className="details__info-genre">
                 {genres.map((genre) => (
-                  <li key={genre.id}>{genre.name}</li>
+                  <li className="details__info-genre-item" key={genre.id}>
+                    {genre.name}
+                  </li>
                 ))}
               </ul>
             </div>
           </div>
-          <h4>Additional information</h4>
-          {moviesDetailsRoutes.map(({ name, path, exact }) => (
-            <li key={`${id}${name}`}>
-              <NavLink
-                to={`${this.props.location.pathname}${path}`}
-                exact={exact}
-              >
-                {name}
-              </NavLink>
-            </li>
-          ))}
+          <div className="inform">
+            <h4>Additional information</h4>
+            <ul className="inform__list">
+              {moviesDetailsRoutes.map(({ name, path, exact }) => (
+                <li className="inform__list-item" key={`${id}${name}`}>
+                  <NavLink
+                    to={`${this.props.location.pathname}${path}`}
+                    exact={exact}
+                    className="inform__list-item-link"
+                    activeClassName="active-info-link"
+                  >
+                    {name}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+          </div>
           <Switch>
             {moviesDetailsRoutes.map(({ name, exact, component }) => (
               <Route

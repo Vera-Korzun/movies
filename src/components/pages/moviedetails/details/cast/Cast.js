@@ -7,7 +7,7 @@ class Cast extends Component {
   componentDidMount() {
     //console.log("this.props.match.params", this.props.match.params);
     fetchMovieCast(this.props.match.params.id).then((cast) => {
-      console.log("cast", cast);
+      //console.log("cast", cast);
       this.setState({
         cast: cast,
       });
@@ -15,17 +15,19 @@ class Cast extends Component {
   }
   render() {
     return (
-      <div>
-        <ul>
+      <div className="cast">
+        <ul className="cast__list">
           {this.state.cast.map((item) => (
-            <li key={item.id}>
+            <li className="cast__list-item" key={item.id}>
               <img
                 src={`https://image.tmdb.org/t/p/w500${item.profile_path}`}
                 alt={item.name}
                 width="100px"
               />
-              <p> {item.name}</p>
-              <p>Character: {item.character}</p>
+              <p className="cast__list-item-name"> {item.name}</p>
+              <p className="cast__list-item-character">
+                Character: {item.character}
+              </p>
             </li>
           ))}
         </ul>

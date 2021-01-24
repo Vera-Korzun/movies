@@ -24,6 +24,9 @@ class MoviesPage extends Component {
         ...prev,
         searchMovies: [...response],
       }));
+      // this.props.history.push({
+      //   search: `?query=${query}`,
+      // });
     });
     //console.log("onFormSubmit this.state.query ==>>", query);
   };

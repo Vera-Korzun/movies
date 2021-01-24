@@ -87,7 +87,8 @@ export const fetchMovieReviews = (id) => {
       }
     })
     .then((data) => {
-      return data.results[0].content;
+      //console.log("data.results", data.results);
+      return data.results;
     });
 };
 
