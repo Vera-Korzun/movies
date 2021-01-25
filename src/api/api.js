@@ -1,19 +1,5 @@
 const API_KEY = "f2e8f65ebe8d65366d5fe19e37f17d6e";
 
-// export const fetchMovies = (search, page) => {
-//   const baseURL = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${search}&page=${page}&include_adult=false`;
-
-//   return fetch(baseURL)
-//     .then((response) => {
-//       if (response.status === 200) {
-//         return response.json();
-//       }
-//     })
-//     .then((data) => {
-//       return data.results;
-//     });
-// };
-
 export const fetchMovies = (search) => {
   const baseURL = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${search}&include_adult=false`;
 
@@ -52,7 +38,9 @@ export const fetchMovieDetails = (id) => {
       }
     })
     .then((data) => {
+      //console.log("data", data);
       return data;
+
       //title release_date
       //user score vote_average
       //overview
@@ -70,7 +58,7 @@ export const fetchMovieCast = (id) => {
       }
     })
     .then((data) => {
-      return data.cast;
+      return data;
       //profile_path
       //name
       //character
@@ -87,8 +75,8 @@ export const fetchMovieReviews = (id) => {
       }
     })
     .then((data) => {
-      //console.log("data.results", data.results);
-      return data.results;
+      console.log("data", data);
+      return data;
     });
 };
 
