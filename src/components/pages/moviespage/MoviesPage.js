@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   NavLink,
   useHistory,
@@ -26,23 +26,38 @@ const MoviesPage = () => {
 
   const getMovies = async (query) => {
     const result = await fetchMovies(query);
-    console.log("getMovies result", result);
+    //console.log("getMovies result", result);
     setState((prev) => ({
       ...prev,
       searchMovies: [...result],
     }));
   };
+
   const onFormSubmit = (e) => {
     e.preventDefault();
     getMovies(state.query);
+    //console.log("MoviesPage history", history);
     history.push({
+      ...location,
       search: `?query=${state.query}`,
     });
-
-    //console.log("onFormSubmit state.query ==>>", query);
   };
+
+  useEffect(() => {
+    console.log("usseEffect location", location);
+    if (!location.state) {
+      return;
+    } else {
+      location.state.query &&
+        getMovies(location.state.query).then(() =>
+          setState((prev) => ({ ...prev, ...location.state }))
+        );
+    }
+    // eslint-disable-next-line
+  }, []);
+
   const { searchMovies, query } = state;
-  console.log("searchMovies", searchMovies);
+
   return (
     <MoviesPageStyled>
       <div className="movies">
@@ -66,8 +81,10 @@ const MoviesPage = () => {
                 <NavLink
                   to={{
                     pathname: `${match.url}/${movie.id}`,
+
                     state: {
                       from: location.pathname,
+                      query: query,
                       movieId: movie.id,
                     },
                   }}
@@ -77,7 +94,6 @@ const MoviesPage = () => {
               </li>
             ))}
         </ul>
-        {/* {state.serching && <MoviesList dataMoviesSearch={dataMoviesSearch} />} */}
       </div>
     </MoviesPageStyled>
   );

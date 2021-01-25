@@ -1,11 +1,11 @@
-import React, { Component, useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { fetchMovieCast } from "../../../../../api/api";
 
 const Cast = () => {
   const [state, setState] = useState({});
-  const history = useHistory();
-  //console.log("history.location.state", history.location.state);
+  const location = useLocation();
+  //console.log(" cast history", history);
 
   const getCast = async (id) => {
     const result = await fetchMovieCast(id);
@@ -14,7 +14,8 @@ const Cast = () => {
   };
 
   useEffect(() => {
-    getCast(history.location.state.movieId);
+    getCast(location.state.movieId);
+    // eslint-disable-next-line
   }, []);
 
   const { cast } = state;

@@ -23,4 +23,18 @@ const mainRoutes = [
   },
 ];
 
-export default mainRoutes;
+// const secondMainRoute = {
+//   path: "/movies/:id",
+//   name: "Movies ID",
+//   exact: true,
+//   component: lazy(() =>
+//     import(
+//       "../components/pages/moviedetails/MovieDetailsPage" /* webpackChunkName: "MovieDetailsPage"*/
+//     )
+//   ),
+// };
+
+export {
+  mainRoutes,
+  //secondMainRoute
+};

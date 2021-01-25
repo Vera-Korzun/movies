@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import {
   NavLink,
   Route,
@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import { fetchMovieDetails } from "../../../api/api";
 import moviesDetailsRoutes from "../../../routes/MoviesDetailsRouters";
+import LoaderSpinner from "../../loader/LoaderSpinner";
 import MovieDetailsStyled from "./MovieDetailsStyled";
 
 const MovieDetailsPage = () => {
@@ -16,7 +17,7 @@ const MovieDetailsPage = () => {
   const match = useRouteMatch();
   const history = useHistory();
   const location = useLocation();
-  //console.log("history.location.state.movieId", history.location.state.movieId);
+  //console.log("MovieDetailsPage history", history);
 
   const getMovieDetails = async (id) => {
     const result = await fetchMovieDetails(id);
@@ -24,21 +25,24 @@ const MovieDetailsPage = () => {
     setState({ ...result });
   };
   useEffect(() => {
+    // console.log(
+    //   " MovieDetailsPage history.location.state.movieId",
+    //   history.location.state.movieId
+    // );
     getMovieDetails(history.location.state.movieId);
+    // eslint-disable-next-line
   }, []);
 
   const goBack = () => {
-    history.push({
-      pathname: history.location.state.from,
-      search: "",
-      hash: "",
-      state: {
-        from: location.pathname,
-        query: location.state.query,
-        page: location.state.page,
-      },
-      page: history.location.state.page,
-    });
+    // console.log(" goBack location.state", location.state);
+    //location.state.from
+    history.push(
+      //location.state.from
+      {
+        pathname: location.state.from,
+        state: { ...location.state },
+      }
+    );
   };
 
   const {
@@ -52,12 +56,6 @@ const MovieDetailsPage = () => {
   } = state;
   // console.log("genres", genres);
 
-  let yearOfRelease = "";
-  if (!!release_date) {
-    yearOfRelease = release_date.substring(0, 4);
-  }
-  //{release_date.slice(0, 4)}
-
   return (
     <MovieDetailsStyled>
       <div className="details">
@@ -66,13 +64,17 @@ const MovieDetailsPage = () => {
         </button>
         <div className="details__info">
           <img
-            src={`https://image.tmdb.org/t/p/w500${poster_path}`}
+            src={
+              poster_path
+                ? `https://image.tmdb.org/t/p/w500${poster_path}`
+                : title
+            }
             alt={title}
             width="250px"
           />
           <div className="details__info-description">
             <h2 className="details__info-title">
-              {title} {`(${yearOfRelease})`}
+              {title} ({release_date && release_date.slice(0, 4)})
             </h2>
             <span>User score: {vote_average * 10}%</span>
             <h3>Overview</h3>
@@ -96,7 +98,7 @@ const MovieDetailsPage = () => {
                 <NavLink
                   to={{
                     pathname: `${match.url}${path}`,
-                    state: { ...location.state },
+                    state: location.state,
                   }}
                   exact={exact}
                   className="inform__list-item-link"
@@ -108,16 +110,18 @@ const MovieDetailsPage = () => {
             ))}
           </ul>
         </div>
-        <Switch>
-          {moviesDetailsRoutes.map(({ path, exact, component }) => (
-            <Route
-              path={`${match.url}${path}`}
-              exact={exact}
-              key={`${id}${path}`}
-              component={component}
-            />
-          ))}
-        </Switch>
+        <Suspense fallback={<LoaderSpinner />}>
+          <Switch>
+            {moviesDetailsRoutes.map(({ path, exact, component }) => (
+              <Route
+                path={`${match.url}${path}`}
+                exact={exact}
+                key={`${id}${path}`}
+                component={component}
+              />
+            ))}
+          </Switch>
+        </Suspense>
       </div>
     </MovieDetailsStyled>
   );

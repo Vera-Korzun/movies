@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { fetchTrending } from "../../../api/api";
 import HomeStyled from "./HomeStyled";
